@@ -1,0 +1,70 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/											            Respondents.list
+GET     /{<[0-9]+>id}/en/?                                      Respondents.view(lang:'en')
+GET     /{<[0-9]+>id}/?                                         Respondents.view
+GET     /{<[0-9]+>householdId}/{<[0-9]+>dataId}/en/?            Respondents.data(lang:'en')
+GET     /{<[0-9]+>householdId}/{<[0-9]+>dataId}/?               Respondents.data
+
+# Application
+GET     /dashboard/?							Application.index
+POST	/parse/{<[0-9]+>id}/?					Application.parseBuildJson
+
+# Forms
+GET		/forms/new/?							Forms.create
+POST	/forms/new/?							Forms.save
+GET		/forms/list/{<[0-9]+>id}/?				Forms.listData
+GET		/forms/data/{<[0-9]+>id}/?				Forms.viewData
+GET     /build/{<[0-9]+>id}/?					Forms.build
+GET		/forms/export/{<[0-9]+>id}/?			Forms.exportData
+
+# Android Interface
+GET     /m/formList/?							Mobile.listAsXml
+*		/m/submission/?							Mobile.submit
+GET     /m/formXml/{<[0-9]+>id}/?				Mobile.viewAsXml
+GET		/m/pendingPres/?						Mobile.getPending
+# Experimental Routes (The controller functions are still live but will never be called. Muhahahaha)
+#GET     /m/userList/?							Mobile.getTableData
+#GET     /m/create/?							Mobile.createModel
+
+# Push Server
+GET     /p/prescriptionDone/?                  Push.presDone
+GET     /p/callingStart/?						Push.callStart
+
+# Users
+GET		/users/?								Users.list
+GET		/users/view/{<[0-9]+>id}/?				Users.details
+GET		/users/new/?							Users.create
+GET		/users/edit/{<[0-9]+>id}/?				Users.edit
+POST	/users/edit/{<[0-9]+>id}/?				Users.submit
+
+GET		/ngos/?									Users.ngoList
+GET		/ngos/new/?								Users.ngoCreate
+POST	/ngos/edit/{<[0-9]+>id}/?				Users.ngoSubmit
+GET		/ngos/edit/{<[0-9]+>id}/?				Users.ngoEdit
+
+GET		/roles/?								Users.roleList
+GET		/roles/new/?							Users.roleCreate
+POST	/roles/edit/{<[0-9]+>id}/?				Users.roleSubmit
+GET		/roles/edit/{<[0-9]+>id}/?				Users.roleEdit
+GET		/acl/?									Users.acl
+POST	/ajax/permission/?						Users.updatePermission
+
+# Mobile
+GET		/m/login								Users.mLogin
+GET		/m/patLogin/?							Mobile.loginPatient
+GET     /m/prescriptionList/?					Mobile.getPrescriptions
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+GET     /uploads/                               staticDir:uploads
+
+
+# Catch all
+*       /{controller}/{action}/?                {controller}.{action}

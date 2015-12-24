@@ -1,0 +1,111 @@
+#{extends 'main.html' /}
+#{set title:'Data' /}
+
+<ul class="breadcrumb">
+  <li><a href="@{Households.list()}"><i class="icon-home"></i> Households</a> <span class="divider">/</span></li>
+  <li><a href="@{Households.view(data.householdId)}">Household ${data.householdId}</a> <span class="divider">/</span></li>
+  <li class="active">Data ${data.id}</li>
+  #{if lang == "en"}
+    <li class="pull-right"><a href="@{Households.data(data.householdId, data.id)}">Bangla</a></li>
+  #{/if}
+  #{else}
+    <li class="pull-right"><a href="@{Households.data(data.householdId, data.id, "en")}">English</a></li>
+  #{/else}
+</ul>
+
+<table class="table table-striped">
+	<tr>
+		<th>Question</th>
+		<th>Answer</th>
+	</tr>
+#{set tmp:0 /}
+#{list items:list, as:'item'}
+	#{if item.value }
+	<tr>
+		<td><strong>&{item.titleVar}</strong></td>
+		<td>
+		#{if item.type == "image"}
+			<a class="image" href="/${play.configuration['aggregate.uploadDir']}/${item.value}">
+            	<img class="thumbnail quimby_search_image" src="/${play.configuration['aggregate.uploadDir']}/${item.value}" width="330" alt="" />
+          	</a>
+		#{/if}
+
+		#{elseif item.type == "video"}
+			<video src="/${play.configuration['aggregate.uploadDir']}/${item.value}" controls>
+				Your browser does not support the <code>video</code> element.
+			</video>
+		#{/elseif}
+
+		#{elseif item.type == "audio"}
+			<audio src="/${play.configuration['aggregate.uploadDir']}/${item.value}" controls>
+				Your browser does not support the <code>audio</code> element.
+			</audio>
+			#{if enableAudioText == "true"}
+				<textarea name="audioText" class="audioText xxlarge" rows="5" cols="10">#{if data?.audioData}${data?.audioData[tmp]}#{/if}</textarea>
+				%{tmp++}%
+			#{/if}
+		#{/elseif}
+
+		#{elseif item.type == "gmap"}
+			<a class="gmap no-ajaxy" title="${item.extraValue}" href="http://maps.googleapis.com/maps/api/staticmap?center=${item.value}&zoom=15&size=640x300&sensor=false&markers=size:mid%7Ccolor:red%7C${item.value}&ext=.jpg">
+		    	<img class="thumbnail quimby_search_image" src="http://maps.googleapis.com/maps/api/staticmap?center=${item.value}&zoom=15&size=330x230&sensor=false&markers=size:mid%7Ccolor:red%7C${item.value}" alt="" />
+		    </a>
+	        ${item.extraValue}
+		#{/elseif}
+
+		#{else}
+			#{if lang == "en"}
+				#{if item.type == "select"}
+					%{
+						String[] ls=item.value.split("\\n");
+						List<String> values = new ArrayList<String>();
+						for (int i = 0; i < ls.length; i++){
+							values.add( new String(""+ls[i]) );
+						}
+					}%
+					#{list items:values, as:'value'}
+					&{value.trim().replaceAll("\n","_").replaceAll(" ","_").replaceAll(" ","")}<br/>
+					#{/list}
+				#{/if}
+				#{else}
+					&{item.value?.trim().replaceAll("\n","_").replaceAll(" ","_").replaceAll(" ","").raw()}
+				#{/else}
+			#{/if}
+			#{else}
+				${item.value?.nl2br()}
+			#{/else}
+			
+		#{/else}
+		</td>
+	</tr>
+	#{/if}
+#{/list}
+</table>
+
+#{if enableAudioText == "true" & tmp > 0}
+<div class="actions tableSave">
+	<button id="audioSave" type="submit" class="btn primary">Update changes</button>
+</div>
+#{set 'moreScripts'}
+<script type="text/javascript">
+	$('#audioSave').click(function(){
+		var data = $('textarea.audioText').serialize();
+
+		var request = $.ajax({
+		  url: "@{Forms.updateAudioData}",
+		  type: "POST",
+		  data: 'id=' + ${data.id} + '&' + data
+		});
+
+		request.done(function(ret){
+			alert('Data updated successfully.');
+		});
+
+		request.error(function(ret){
+			alert('Error occurred during updating data.');
+		});
+
+	});
+</script>
+#{/set}
+#{/if}

@@ -1,0 +1,30 @@
+#Role
+#
+Role(admin):
+    name:       "Admin"
+
+Role(manger):
+    name:       "Manager"
+
+Role(rmp):
+    name:       "RMP"
+
+#User
+#
+User(root):
+    login:      "root"
+    name:       "Root"
+    password:   "root"
+    role:       [admin]
+
+User(manager1):
+    login:      "manager"
+    name:       "Manager 01"
+    password:   "manager"
+    role:       [manger]
+
+User(rmp):
+    login:      "rmp_01"
+    name:       "Basic Rmp"
+    password:   "1234"
+    role:       [rmp]

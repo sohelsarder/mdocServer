@@ -1,0 +1,57 @@
+#{extends 'main.html' /}
+#{set title:'Forms' /}
+
+<div class="page-header top clearfix">
+    <h1 class="span6">${title}</h1>
+    <div class="span6 mt20">
+        <form class="pull-right mb0">
+          <input type="text" class="search-query" placeholder="Type & Press Enter to Search">
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped searchable">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Title</th>
+			<th># of Data</th>
+			<th>Last Received</th>
+			#{deadbolt.externalizedRestriction externalRestrictions:['Edit Form', 'View Data', 'Export Data']}
+			<th>Actions</th>
+			#{/deadbolt.externalizedRestriction}
+		</tr>
+	</thead>
+	<tbody>
+		#{list items:forms, as:'form'}
+		<tr>
+			<td>${form.id}</td>
+			<td>${form.title}</td>
+			<td>${form.dataCount}</td>
+			<td>${form?.lastReceived?.since(true)}</td>
+			#{deadbolt.externalizedRestriction externalRestrictions:['Edit Form', 'View Data', 'Export Data']}
+			<td class="buttons">
+				#{if form.dataCount}
+				#{deadbolt.externalizedRestriction externalRestrictions:['View Data']}
+				<a class="btn btn-mini" href="@{Forms.listData(form.id)}"><i class="icon-tasks"></i> Data</a>
+				#{/deadbolt.externalizedRestriction}
+				#{deadbolt.externalizedRestriction externalRestrictions:['Export Data']}
+				<a class="btn btn-mini btn-primary" href="@{Forms.exportData(form.id)}"><i class="icon-download icon-white"></i> Export</a>
+				#{/deadbolt.externalizedRestriction}
+				#{/if}
+				#{deadbolt.externalizedRestriction externalRestrictions:['Edit Form']}
+				<a class="btn btn-mini btn-success" href="@{Forms.build(form.id)}"><i class="icon-cog icon-white"></i> Build</a>
+				<a class="btn btn-mini btn-primary" href="@{Forms.exportForm(form.id)}"><i class="icon-download-alt icon-white"></i> Export Form</a>
+				<a class="btn btn-mini btn-danger delete" data-url="@{Forms.delete(form.id)}" href="#deleteModal"><i class="icon-remove icon-white"></i> Delete</a>
+				#{/deadbolt.externalizedRestriction}
+			</td>
+			#{/deadbolt.externalizedRestriction}
+		</tr>
+		#{/list}
+		#{else}
+		<tr>
+			<td colspan="5">No form found</td>
+		</tr>
+		#{/else}
+	</tbody>
+</table>

@@ -1,0 +1,41 @@
+#{extends 'main.html' /}
+#{set title:data[0].form.title /}
+
+<ul class="breadcrumb">
+  <li><a href="@{Forms.list()}"><i class="icon-list"></i> Forms</a> <span class="divider">/</span></li>
+  <li class="active">${data[0].form.title} Data</li>
+</ul>
+
+<div class="page-header top">
+	<h1>${title} Data</h1>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Sender</th>
+			<th>Received</th>
+			<th>Interviewed</th>
+			<th>Duration</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+	#{list items:data, as:'row'}
+		<tr>
+			<td>${row.id}</td>
+			<td>${row.sender?.name}</td>
+			<td>${row.received.since(true)}</td>
+			<td>${row.startTime?.since(true)}</td>
+			<td>${row.startTime?.diff(row.endTime)}</td>
+			<td class="center buttons"><a class="btn btn-mini primary" href="@{Forms.viewData(row.id)}">Details</a></td>
+		</tr>
+		#{/list}
+		#{else}
+		<tr>
+			<td colspan="3">No data found</td>
+		</tr>
+		#{/else}
+	</tbody>
+</table>

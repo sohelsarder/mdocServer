@@ -1,0 +1,187 @@
+.right {
+	float: right;
+}
+.questions-wrap {
+	float: left;
+	width: 100%;
+	margin-right: -232px;
+}
+.questions {
+	min-height: 800px;
+	overflow: scroll;
+	position: relative;
+	margin-right: 232px;
+}
+.property {
+	float: left;
+	min-height: 800px;
+	width: 220px;	
+	margin-left: 0;
+	padding: 10px 0 0 10px;
+	border-left: 1px solid #eee;
+}
+.bottomless {
+	margin: 0;
+}
+.shadow {
+	-webkit-mask-box-image: -webkit-linear-gradient(left,transparent 0%, rgba(0,0,0,.8) 50%,transparent 100%);
+	background-color: transparent;
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .2), transparent);
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, .2), transparent);
+	background-image: -ms-linear-gradient(top, rgba(0, 0, 0, .2), transparent);
+	background-image: -o-linear-gradient(top, rgba(0, 0, 0, .2), transparent);
+	background-image: linear-gradient(top, rgba(0, 0, 0, .2), transparent);
+	border-top: 1px solid rgba(0, 0, 0, 0.4);
+	height: 8px;
+	margin: -1px 231px -8px 0;
+	display: none;
+	position: relative;
+	width: auto;
+	z-index: 10;
+}
+.center {
+	text-align: center;
+}
+.question {
+	padding: 0;
+	color: #555;
+	width: 100px;
+	min-height: 40px;
+	margin: 1px 1px 1px 8px;
+	position: absolute;
+	background: #fff;
+	cursor: move;
+	text-align: center;
+	border: 1px solid #999;
+}
+.question .icon {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("../images/glyphicons-halflings-white.png");
+	background-position: 14px 14px;
+	background-repeat: no-repeat;
+}
+.question .wrap {
+	position: relative;
+}
+.question .label {
+	-webkit-border-radius: 3px 3px 0 0;
+	-moz-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+	padding: 2px 2px 2px 16px;
+}
+.question .caption {
+	padding: 2px;
+}
+.question.string .icon {
+	background-position: -336px -48px;
+}
+.question.int .icon {
+	background-position: -240px 0;
+}
+.question.date .icon {
+	background-position: -192px -120px;
+}
+.question.binary .icon {
+	background-position: -456px -48px;
+}
+.question.barcode .icon {
+	background-position: -456px -24px;
+}
+.question.geopoint .icon {
+	background-position: -24px -72px;
+}
+.question.select .icon {
+	background-position: -144px -72px;
+}
+.question.select1 .icon {
+	background-position: -192px -96px;
+}
+.activeq {
+	border: 1px solid #5bb75b;	
+}
+.activeq .label {
+	background-color: #5bb75b;
+}
+.activechild {
+	border: 1px solid #da4f49;
+}
+.activechild .label {
+	background-color: #da4f49;
+}
+label {
+	padding-top: 6px;
+	font-size: 11px;
+	line-height: 18px;
+	text-align: left;
+	color: #404040;
+}
+input,
+textarea,
+select,
+.uneditable-input {
+	font-size: 11px;
+	height: 15px;
+	line-height: 15px;
+}
+select {
+	font-size: 11px;
+	height: 25px;
+	line-height: 25px;
+}
+.btnApply {
+	float: right;
+	margin-top: 10px;
+	margin-right: 10px;
+	display: block;
+}
+.clear {
+	clear: both;
+}
+.btnDelete {
+	float: left;
+	margin-top: 10px;
+	margin-right: 10px;
+	display: block;
+}
+.separator {
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin-bottom: 0;
+	border-bottom: 1px solid #eee;	
+}
+.small {
+	font-size: 11px;
+}
+.items div.item {
+	margin-bottom: 10px;
+}
+.item div.rght {
+	float: right;
+}
+a.danger {
+	color: #c43c35;
+}
+a.success {
+	color: #46a546;
+}
+a.cross{
+	font-weight:bold;
+}
+/* Disable mouse events on connector (canvas element) */
+._jsPlumb_connector  {
+	pointer-events:none; 
+}
+._jsPlumb_overlay {
+	border:1px dotted #c6c6c6;
+	background-color: #f9f1d6;
+	padding: 4px;
+	cursor: pointer;
+	text-decoration: underline;
+}

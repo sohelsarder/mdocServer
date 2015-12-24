@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="${_response_encoding}">
+        #{stylesheet 'bootstrap.css' /}
+	    <style type="text/css">
+		body {
+			padding-top: 60px;
+		}
+		</style>
+        #{stylesheet 'bootstrap-responsive.css' /}
+        #{stylesheet 'fancybox/jquery.fancybox-1.3.4.css' /}
+        #{stylesheet 'uniform.default.css' /}
+        #{stylesheet 'main.css' /}
+		#{get 'moreStyles' /}
+		
+        <!--[if lt IE 9]>
+        	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+	    #{script 'jquery-1.7.2.min.js' /}
+    </head>

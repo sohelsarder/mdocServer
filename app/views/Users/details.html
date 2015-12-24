@@ -1,0 +1,101 @@
+#{extends 'main.html' /}
+#{set title:'User Details' /}
+
+<ul class="breadcrumb">
+	<li>
+		<a href="@{Application.index()}">Home</a> <span class="divider">/</span>
+	</li>
+	<li>
+		<a href="@{Users.list()}">Users</a> <span class="divider">/</span>
+	</li>
+	<li class="active">${user.name} (${user.login})</li>
+</ul>
+
+<div class="page-header">
+	<h1>${title}</h1>
+</div>
+
+<table class="table table-striped table-details">
+    <tbody>
+	    <tr>
+	        <td>#</td>
+	        <td>${user.id}</td>
+	    </tr>
+	    <tr>
+	        <td>&{'user.login'}</td>
+	        <td>${user.login}</td>
+	    </tr>
+	    <tr>
+	        <td>&{'user.name'}</td>
+	        <td>${user.name}</td>
+	    </tr>
+	    <tr>
+	        <td>&{'user.role.name'}</td>
+	        <td>${user.role.name}</td>
+	    </tr>
+	    <tr>
+	        <td>&{'user.age'}</td>
+	        <td>${user.age}</td>
+	    </tr>
+	    <tr>
+	        <td>&{'user.phone'}</td>
+	        <td>${user.phone}</td>
+	    </tr>
+    </tbody>
+</table>
+
+<form>
+	<fieldset>
+		<legend>NGOs</legend>
+		<div class="row ngos">
+			#{deadbolt.externalizedRestriction externalRestrictions:['Edit User']}
+			<div class="span">
+				#{input 'ngo.ngos', type:'select', items:ngos, multiple:'mutiple' /}
+			</div>
+			<div class="span2">
+				<a class="btn btn-success">&gt;</a><br>
+				<a class="btn btn-danger">&lt;</a>
+			</div>
+			#{/deadbolt.externalizedRestriction}
+			<div class="span">
+				#{input 'user.ngos', type:'select', items:user.ngos, multiple:'mutiple' /}
+			</div>
+		</div>
+	</fieldset>
+</form>
+
+#{deadbolt.externalizedRestriction externalRestrictions:['Edit User']}
+<script>
+	$('.ngos .btn-success').click(function(e){
+		$.ajax('@@{Users.assignNgo()}', {
+        	type: 'POST',
+        	data: {
+        		userId: '${user.id}',
+        		ngos: $('.ngos select:first').val(),
+        		remove: false
+        	}
+        }).done(function() {
+    		$('.ngos select:last').append($('.ngos select:first :selected'));
+			$('.ngos select:first :selected').remove();
+    	}).error(function(){
+    		alert('Error Occured');
+    	});
+	});
+
+	$('.ngos .btn-danger').click(function(e){
+		$.ajax('@@{Users.assignNgo()}', {
+        	type: 'POST',
+        	data: {
+        		userId: '${user.id}',
+        		ngos: $('.ngos select:last').val(),
+        		remove: true
+        	}
+        }).done(function() {
+    		$('.ngos select:first').append($('.ngos select:last :selected'));
+			$('.ngos select:last :selected').remove();
+    	}).error(function(){
+    		alert('Error Occured');
+    	});
+	});
+</script>
+#{/deadbolt.externalizedRestriction}

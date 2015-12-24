@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+
+<div class="page-header top">
+#{if form?.id}
+    <h1>Edit Form</h1>
+#{/if}
+#{else}
+    <h1>New Form</h1>
+#{/else}
+</div>
+
+<div class="span12">
+	#{form @create(), class:'form-horizontal', method:'post', enctype:'multipart/form-data'}
+		#{input 'form.title' /}
+		#{input 'form.version', placeholder:'1' /}
+		#{input 'form.xml', type:'file', accept:'text/xml' /}
+	    #{input 'form.json', type:'file', accept:'application/json' /}
+	    #{submit /}
+	#{/form}
+</div>

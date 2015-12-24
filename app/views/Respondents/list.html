@@ -1,0 +1,108 @@
+#{extends 'main.html' /}
+#{set title:'Data' /}
+
+#{set tmp:((currentPage - 1) * recordsPerPage)+1/}
+
+<div class="page-header top clearfix">
+    <h1 class="span6">*{Respondents}*Data</h1>
+    <div class="span6 mt20">
+        #{deadbolt.externalizedRestriction externalRestrictions:['Export Data']}
+        <div class="btn-group pull-right ml10">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="icon-download-alt"></i> Export &nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- dropdown menu links -->
+                *{
+                <li>
+                	<a href="@{Forms.exportAllData()}">All</a>
+                </li>
+                }*
+                #{list items:forms, as:'form'}
+                <li>
+                    <a href="@{Forms.exportData(form.id)}">${form.title}</a>
+                </li>
+                #{/list}
+            </ul>
+        </div>
+        #{/deadbolt.externalizedRestriction}
+        <form class="pull-right mb0">
+          <input type="text" class="search-query" placeholder="Type & Press Enter to Search">
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped searchable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Patient Name</th>
+            <th>Patient Id</th>
+            <th>Rmp Name</th>
+            <th>Registered</th>
+            <th>Duration</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    #{list items:data, as:'row'}
+        <tr>
+            <td>${tmp++}</td>
+            <td>${row.respondentName}</td>
+            <td>${row.respondentId}</td>
+            <td>${row.sender?.name}</td>
+            <td>${row.received.format('dd MMMM yyyy')}</td>
+            <td>${row.startTime.diff(row.endTime)}</td>
+            <td class="center buttons"><a class="btn btn-mini primary" href="@{Respondents.view(row.respondentId)}"><i class="icon-home"></i> View Data</a></td>
+        </tr>
+        #{/list}
+        
+         <tr><td colspan="7" align="right">
+        <ul id="pagination-flickr">
+        <li class="previous-off">
+			#{if currentPage != 1}
+			  <a href="?page=1">« First</a>
+			#{/if}
+		</li>
+		<li class="previous-off">
+			#{if currentPage != 1}
+			  <a href="?page=${currentPage-1}">« Previous</a>
+			#{/if}
+		</li>
+		
+		#{if currentPage <= totalPages}
+		#{list items:currentPage..(currentPage-1)+15,as:'i'}
+		 
+		  #{if currentPage == i}
+		    <li class="active">${i}</li>
+		  #{/if}
+		 
+		  #{else}
+		  #{if i <= totalPages}
+		    <li><a href="?page=${i}">${i}</a></li>
+		   #{/if}
+		   
+		  #{/else}
+		  
+		#{/list}
+		#{/if}
+		<li class="next">
+		   #{if currentPage < totalPages }
+		     <a href="?page=${currentPage+1}">Next »</a>
+		   #{/if}
+		</li>
+		<li class="next">
+		   #{if currentPage < totalPages }
+		     <a href="?page=${totalPages}">Last »</a>
+		   #{/if}
+		</li>
+		</ul> 
+		</td></tr>
+		
+        #{else}
+        <tr>
+            <td colspan="7">No data found</td>
+        </tr>
+        #{/else}
+    </tbody>
+</table>

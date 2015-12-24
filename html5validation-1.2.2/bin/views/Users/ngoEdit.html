@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+
+<div class="page-header top">
+#{if ngo?.id}
+    <h1>Edit Ngo</h1>
+#{/if}
+#{else}
+    <h1>New Ngo</h1>
+#{/else}
+</div>
+
+
+#{form @ngoSubmit(), class:'form-horizontal'}
+	#{if ngo?.id}
+    <input type="hidden" name="ngo.id" value="${ngo.id}" />
+    #{/if}
+
+    #{input 'ngo.name' /}
+    #{submit /}
+#{/form}

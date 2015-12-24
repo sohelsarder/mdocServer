@@ -1,0 +1,5 @@
+<forms>
+	#{list items:forms, as:'form'}
+	<form url="@@{Mobile.viewAsXml(form.id)}">${form.title}</form>
+	#{/list}
+</forms>

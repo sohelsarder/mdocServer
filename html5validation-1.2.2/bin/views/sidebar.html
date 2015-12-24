@@ -1,0 +1,46 @@
+<div class="well sidebar-nav">
+	<ul class="nav nav-list">
+
+	#{deadbolt.externalizedRestriction externalRestrictions:['View Form', 'Edit Form']}
+
+		#{deadbolt.externalizedRestriction externalRestrictions:['View Data']}
+		<li#{if 'Households' == request.controller} class="active"#{/if}><a href="@{Households.list()}"><i class="icon-home"></i> Households</a></li>
+		#{/deadbolt.externalizedRestriction}
+
+		#{deadbolt.externalizedRestriction externalRestrictions:['View Form']}
+		<li#{if 'Forms' == request.controller && 'create' != request.actionMethod} class="active"#{/if}><a href="@{Forms.list()}"><i class="icon-list"></i> Forms</a></li>
+		#{/deadbolt.externalizedRestriction}
+
+		#{deadbolt.externalizedRestriction externalRestrictions:['Edit Form']}
+		<li#{if 'Forms.create' == request.action} class="active"#{/if}><a href="@{Forms.create()}"><i class="icon-plus"></i> New Form</a></li>
+		#{/deadbolt.externalizedRestriction}
+
+	#{/deadbolt.externalizedRestriction}
+
+	#{deadbolt.externalizedRestriction externalRestrictions:['View User', 'Edit User', 'View Role', 'Edit Role', 'View Ngo', 'Edit Ngo', 'ACL']}
+		<li class="nav-header"><i class="icon-user"></i> Users</li>
+
+		#{deadbolt.externalizedRestriction externalRestrictions:['View User']}
+		<li#{if 'Users.list' == request.action ||
+		'Users.details' == request.action ||
+		'Users.edit' == request.action} class="active"#{/if}><a href="@{Users.list()}"><i class="icon-list"></i> Users</a></li>
+		#{/deadbolt.externalizedRestriction}
+
+		#{deadbolt.externalizedRestriction externalRestrictions:['Edit User']}
+		<li#{if 'Users.create' == request.action} class="active"#{/if}><a href="@{Users.create()}"><i class="icon-plus"></i> New User</a></li>
+		<li#{if 'Users.ngoList' == request.action || 'Users.ngoEdit' == request.action} class="active"#{/if}><a href="@{Users.ngoList()}"><i class="icon-list"></i> NGOs</a></li>
+		<li#{if 'Users.ngoCreate' == request.action} class="active"#{/if}><a href="@{Users.ngoCreate()}"><i class="icon-plus"></i> New NGO</a></li>
+		<li#{if 'Users.roleList' == request.action || 'Users.roleEdit' == request.action} class="active"#{/if}><a href="@{Users.roleList()}"><i class="icon-list"></i> Roles</a></li>
+		<li#{if 'Users.roleCreate' == request.action} class="active"#{/if}><a href="@{Users.roleCreate()}"><i class="icon-plus"></i> New Role</a></li>
+		#{/deadbolt.externalizedRestriction}
+
+		#{deadbolt.externalizedRestriction externalRestrictions:['ACL']}
+		<li#{if 'Users.acl' == request.action} class="active"#{/if}><a href="@{Users.acl()}"><i class="icon-cog"></i> Access Control List</a></li>
+		#{/deadbolt.externalizedRestriction}
+
+	#{/deadbolt.externalizedRestriction}
+	
+
+	</ul>
+</div>
+<!--/.well -->

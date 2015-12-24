@@ -1,0 +1,118 @@
+#{extends 'main.html' /}
+#{set title:'Household' /}
+
+<ul class="breadcrumb">
+  <li><a href="@{Households.list()}"><i class="icon-home"></i> Households</a> <span class="divider">/</span></li>
+  <li class="active">Household ${data.householdId}</li>
+  #{if lang == "en"}
+    <li class="pull-right"><a href="@{Households.view(data.householdId)}">Bangla</a></li>
+  #{/if}
+  #{else}
+    <li class="pull-right"><a href="@{Households.view(data.householdId, "en")}">English</a></li>
+  #{/else}
+</ul>
+
+<div class="page-header">
+	<h1>Household ${data.householdId}</h1>
+</div>
+
+<div class="row-fluid">
+      <div*{ class="span6"}*>
+      	<table class="table table-striped">
+			#{list items:list, as:'item'}
+			#{if item.value}
+			<tr>
+				<td><strong>&{item.titleVar}</strong></td>
+				<td>
+				#{if item.type == "image"}
+					<a class="image" href="/${play.configuration['aggregate.uploadDir']}/${item.value}">
+		            	<img class="thumbnail quimby_search_image" src="/${play.configuration['aggregate.uploadDir']}/${item.value}" width="330" alt="" />
+		        	</a>
+				#{/if}
+		
+				#{elseif item.type == "video"}
+					<video src="/${play.configuration['aggregate.uploadDir']}/${item.value}" controls>
+						Your browser does not support the <code>video</code> element.
+					</video>
+				#{/elseif}
+		
+				#{elseif item.type == "audio"}
+					<audio src="/${play.configuration['aggregate.uploadDir']}/${item.value}" controls>
+						Your browser does not support the <code>audio</code> element.
+					</audio>
+				#{/elseif}
+				
+				#{elseif item.type == "gmap"}
+					${item.extraValue}
+				#{/elseif}
+
+				#{else}
+					&{item.value?.nl2br()}
+				#{/else}
+				</td>
+			</tr>
+			#{/if}
+		#{/list}
+		</table>
+      </div>
+      *{
+      <div class="span6">
+      		#{list items:list, as:'item'}
+			#{if item.value }
+				#{if item.type == "gmap"}
+				<a class="gmap no-ajaxy" title="${item.extraValue}" href="http://maps.googleapis.com/maps/api/staticmap?center=${item.value}&zoom=15&size=640x300&sensor=false&markers=size:mid%7Ccolor:red%7C${item.value}&ext=.jpg">
+					<img class="thumbnail quimby_search_image img-polaroid" src="http://maps.googleapis.com/maps/api/staticmap?center=${item.value}&zoom=15&size=330x230&sensor=false&markers=size:mid%7Ccolor:red%7C${item.value}" alt="" />
+				</a>
+				#{/if}
+			#{/if}
+		#{/list}
+      </div>
+      }*
+</div>
+
+<div class="page-header">
+	<h3>Gallery</h3>
+</div>
+
+
+<div class="gallery clearfix">
+#{list items:images, as:'item'}
+	<a rel="gallery" class="pull-left imageGroup" href="/${play.configuration['aggregate.uploadDir']}/${item.value}">
+    	<img class="thumbnail quimby_search_image" src="/${play.configuration['aggregate.uploadDir']}/${item.value}" width="150" alt="" />
+	</a>
+#{/list}
+</div>
+
+<div class="page-header">
+	<h2>Follow-Ups</h2>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Sender</th>
+			<th>Received</th>
+			<th>Interviewed</th>
+			<th>Duration</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+	#{list items:followups, as:'row'}
+		<tr>
+			<td>${row.id}</td>
+			<td>${row.sender?.name}</td>
+			<td>${row.received.since(true)}</td>
+			<td>${row.startTime?.since(true)}</td>
+			<td>${row.startTime?.diff(row.endTime)}</td>
+			<td class="center"><a class="btn primary" href="@{Households.data(data.householdId, row.id)}">Details</a></td>
+		</tr>
+		#{/list}
+		#{else}
+		<tr>
+			<td colspan="6">No data found</td>
+		</tr>
+		#{/else}
+	</tbody>
+</table>
